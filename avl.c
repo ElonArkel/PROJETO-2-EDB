@@ -10,6 +10,17 @@ struct NO
     struct NO *dir;
 };
 
+struct NO* procuraMenor(struct NO *atual)
+{
+    struct NO *no1 = atual;
+    struct NO *no2 = atual->esq;
+    while(no2 != NULL){
+        no1 = no2;
+        no2 = no2->esq;
+    }
+    return no1;
+}
+
 ArvAVL *raiz;
 
 int altura_NO(struct NO *no)
@@ -128,5 +139,60 @@ int Insere_ArvAVL(ArvAVL *raiz, int valor)
 
     atual->alt = maior(altura_NO(atual->esq), altura_NO(atual->dir)) + 1;
 
+    return res;
+}
+
+int Remove_ArvAVL(ArvAVL *raiz, int valor)
+{
+    if (*raiz == NULL){
+        printf("Valor não existe!!\n");
+        return 0;
+    }
+
+    int res;
+    if(valor < (*raiz)->info){
+        if((res = Remove_ArvAVL(&(*raiz)->esq, valor)) == 1){
+            if(fatorBalanceamento_NO(*raiz) >= 2){
+                if(altura_NO((*raiz)->dir->esq) <= altura_NO((*raiz)->dir->dir))
+                    RotacaoRR(raiz);
+                else
+                    RotacaoRL(raiz);
+            }
+        }
+    }
+
+    if( valor > (*raiz)->info){
+        if((res = Remove_ArvAVL(&(*raiz)->dir, valor)) == 1){
+            if(fatorBalanceamento_NO(*raiz) >= 2){
+                if(altura_NO((*raiz)->esq->dir) <= altura_NO((*raiz)->esq->esq))
+                    RotacaoLL(raiz);
+                else
+                    RotacaoLR(raiz);
+            }
+        }
+    }
+
+    if((*raiz)->info == valor){
+        if(((*raiz)->esq == NULL || (*raiz)->dir == NULL)){
+            struct NO *VelhoNo = (*raiz);
+            if((*raiz)->esq != NULL)
+                *raiz = (*raiz)->esq;
+            else
+                *raiz = (*raiz)->dir;
+            free(VelhoNo);
+        }
+        else{
+            struct NO *temp = procuraMenor((*raiz)->dir);
+            (*raiz)->info = temp->info;
+            Remove_ArvAVL(&(*raiz)->dir, (*raiz)->info);
+            if(fatorBalanceamento_NO(*raiz) >= 2){
+                if(altura_NO((*raiz)->esq->dir) <= altura_NO((*raiz)->esq->esq))
+                    RotacaoLL(raiz);
+                else
+                    RotacaoLR(raiz);
+            }
+        }
+        return 1;
+    }
     return res;
 }
