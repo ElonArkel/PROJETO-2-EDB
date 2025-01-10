@@ -18,7 +18,7 @@ Jogo* criarJogo()
     jogo->tabuleiro = NULL;
     jogo->linhas = 0;
     jogo->colunas = 0;
-    jogo->trie = criarTrie();
+    jogo->trie = criarNo();
     jogo->avl = (ArvAVL*)malloc(sizeof(ArvAVL));
     criar_ArvAVL(jogo->avl);
     return jogo;
@@ -32,11 +32,11 @@ void destruirJogo(Jogo* jogo)
     }
     free(jogo->tabuleiro);
     free(jogo->avl);
-    destruirTrie(jogo->trie);
+    liberar(jogo->trie);
     free(jogo);
 }
 
-void lerTabuleiro(Jogo* jogo, const char* filename)
+void lerTabuleiro(Jogo* jogo)
 {
     FILE* file = fopen("../tabuleiro.txt", "r");
     if (file == NULL){
@@ -56,7 +56,7 @@ void lerTabuleiro(Jogo* jogo, const char* filename)
     fclose(file);
 }
 
-void lerPalavras(Jogo* jogo, const char* filename)
+void lerPalavras(Jogo* jogo)
 {
     FILE* file = fopen("../palavras.txt", "r");
     if (file == NULL){
@@ -66,7 +66,7 @@ void lerPalavras(Jogo* jogo, const char* filename)
     else{
         char palavra[100];
         while (fscanf(file, "%s", palavra) != EOF){
-            insereTrie(jogo->trie, palavra);
+            inserirPalavra(jogo->trie, palavra);
             Insere_ArvAVL(jogo->avl, palavra);
         }
     }
@@ -100,7 +100,7 @@ void buscarPalavraNaPosicao(Jogo* jogo, int x, int y, const char* palavra, int d
     strcpy(novaPalavra, palavra);
     novaPalavra[strlen(palavra)] = jogo->tabuleiro[x][y];
     novaPalavra[strlen(palavra) + 1] = '\0';
-    if(buscarTrie(jogo->trie, novaPalavra)){
+    if(buscarPalavra(jogo->trie, novaPalavra)){
         if(buscar_ArvAVL(jogo->avl, novaPalavra)){
             printf("Palavra encontrada: %s\n", novaPalavra);
         }

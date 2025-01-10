@@ -7,14 +7,14 @@ typedef struct {
     char** tabuleiro;
     int linhas;
     int colunas;
-    No* trie;  //apontar pro nó raiz da trie
+    No* trie;  // apontar pro nó raiz da trie
     ArvAVL* avl;
 } Jogo;
 
 Jogo* criarJogo();
 void destruirJogo(Jogo* jogo);
-void lerTabuleiro(Jogo* jogo, const char* filename);
-void lerPalavras(Jogo* jogo, const char* filename);
+void lerTabuleiro(Jogo* jogo);
+void lerPalavras(Jogo* jogo);
 int buscarPalavras(Jogo* jogo);
 void imprimirResultado(Jogo* jogo);
 

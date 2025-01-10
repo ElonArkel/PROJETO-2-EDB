@@ -9,5 +9,6 @@ typedef struct No {
 No *criarNo();
 void inserirPalavra(No* raiz, char* palavra);
 int buscarPalavra(No* raiz, char* palavra);
+void liberar(No* raiz);
 
 #endif

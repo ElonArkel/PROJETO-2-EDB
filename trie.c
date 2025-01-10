@@ -47,3 +47,10 @@ int buscarPalavra(No* raiz, char* palavra) {
 
     return atual->final;
 }
+
+void liberar(No* raiz) {
+    for (int i = 0; i < tamanho; i++) {
+        liberar(raiz->letras[i]);
+    }
+    free(raiz);
+}
