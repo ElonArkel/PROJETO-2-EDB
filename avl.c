@@ -92,7 +92,7 @@ void RotacaoRL(ArvAVL *raiz)
     RotacaoRR(raiz);
 }
 
-int Insere_ArvAVL(ArvAVL *raiz, int valor)
+ArvAVL Insere_ArvAVL(ArvAVL *raiz, int valor)
 {
     int res;
     if (*raiz == NULL)
@@ -147,7 +147,7 @@ int Insere_ArvAVL(ArvAVL *raiz, int valor)
     return res;
 }
 
-int Remove_ArvAVL(ArvAVL *raiz, int valor)
+ArvAVL Remove_ArvAVL(ArvAVL *raiz, int valor)
 {
     if (*raiz == NULL){
         printf("Valor não existe!!\n");
