@@ -71,9 +71,47 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
             }
         }
     }
+
+    //Diagonal superior esquerda para inferior direita
+
+    for(int i = 0; i < tamanho_tabuleiro; i++){
+        for(int j = 0; j < tamanho_tabuleiro; j++){
+            int x = i, y = j, len = 0;
+            while(x < tamanho_tabuleiro && y < tamanho_tabuleiro){
+                palavra[len++] = tabuleiro[x++][y++];
+                palavra[len] = '\0';
+                if(buscarPalavra(trie, palavra)){
+                    // *avl = inserirAVL(*avl, palavra);
+                    printf("entrou\n");
+                }
+                x++;
+                y++;
+            }
+        }
+    }
+    
+    //Diagonal superior direita para inferior esquerda
+
+    for(int i = 0; i < tamanho_tabuleiro; i++){
+        for(int j = 0; j < tamanho_tabuleiro; j++){
+            int x = i, y = j, len = 0;
+            while(x < tamanho_tabuleiro && y >= 0){
+                palavra[len++] = tabuleiro[x++][y--];
+                palavra[len] = '\0';
+                if(buscarPalavra(trie, palavra)){
+                    // *avl = inserirAVL(*avl, palavra);
+                    printf("entrou\n");
+                }
+                x++;
+                y--;
+            }
+        }
+    }
+    
 }
 
 void imprimirResultado(ArvAVL *avl) {
+    printf("Palavras encontradas:\n");
     imprimirArvoreEmOrdem(avl);
 }
 
