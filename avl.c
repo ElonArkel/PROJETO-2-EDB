@@ -11,21 +11,26 @@ int maior(int x, int y)
         return y;
 }
 
-int altura(ArvAVL* no){
-    if(no == NULL){
+int altura(ArvAVL *no)
+{
+    if (no == NULL)
+    {
         return -1;
     }
-    else{
+    else
+    {
         return no->altura;
     }
 }
 
-int fatorBalanceamento(ArvAVL* no){
+int fatorBalanceamento(ArvAVL *no)
+{
     return labs(altura(no->esq) - altura(no->dir));
 }
 
-ArvAVL* criarArvAVL(const char* palavra){
-    ArvAVL* novo = (ArvAVL*)malloc(sizeof(ArvAVL));
+ArvAVL *criarArvAVL(const char *palavra)
+{
+    ArvAVL *novo = (ArvAVL *)malloc(sizeof(ArvAVL));
     strcpy(novo->palavra, palavra);
     novo->altura = 1;
     novo->esq = NULL;
@@ -33,9 +38,10 @@ ArvAVL* criarArvAVL(const char* palavra){
     return novo;
 }
 
-ArvAVL* rotacaoDireita(ArvAVL* no){
-    ArvAVL* aux = no->esq;
-    ArvAVL* aux2 = aux->dir;
+ArvAVL *rotacaoDireita(ArvAVL *no)
+{
+    ArvAVL *aux = no->esq;
+    ArvAVL *aux2 = aux->dir;
 
     aux->dir = no;
     no->esq = aux2;
@@ -45,10 +51,11 @@ ArvAVL* rotacaoDireita(ArvAVL* no){
     return aux;
 }
 
-ArvAVL* rotacaoEsquerda(ArvAVL* no){
-    ArvAVL* aux1 = no->dir;
-    ArvAVL* aux2 = aux1->esq;
-    
+ArvAVL *rotacaoEsquerda(ArvAVL *no)
+{
+    ArvAVL *aux1 = no->dir;
+    ArvAVL *aux2 = aux1->esq;
+
     aux1->esq = no;
     no->dir = aux2;
 
@@ -57,55 +64,74 @@ ArvAVL* rotacaoEsquerda(ArvAVL* no){
     return aux1;
 }
 
-ArvAVL* balancearNo(ArvAVL* no){
+ArvAVL *balancearNo(ArvAVL *no)
+{
     int balanceamento = fatorBalanceamento(no);
-    if(balanceamento > 1){
-        if(altura(no->esq->esq) > altura(no->esq->dir)){
-            no = rotacaoDireita(no);
-        }
-        else{
-            no->esq = rotacaoEsquerda(no->esq);
-            no = rotacaoDireita(no);
-        }
+
+    // rotação simples direita
+    if (balanceamento > 1 && fatorBalanceamento(no->esq) >= 0)
+    {
+        return rotacaoDireita(no);
     }
-    else if(balanceamento < -1){
-        if(altura(no->dir->dir) > altura(no->dir->esq)){
-            no = rotacaoEsquerda(no);
-        }
-        else{
-            no->dir = rotacaoDireita(no->dir);
-            no = rotacaoEsquerda(no);
-        }
+    // rotação dupla direita
+    if (balanceamento > 1 && fatorBalanceamento(no->esq) < 0)
+    {
+        no->esq = rotacaoEsquerda(no->esq);
+        return rotacaoDireita(no);
     }
+
+    // rotação simples esquerda
+    if (balanceamento < -1 && fatorBalanceamento(no->dir) <= 0)
+    {
+        return rotacaoEsquerda(no);
+    }
+
+    // rotação dupla esquerda
+    if(balanceamento < -1 && fatorBalanceamento(no->dir) > 0)
+    {
+        no->dir = rotacaoDireita(no->dir);
+        return rotacaoEsquerda(no);
+    }
+
+    return no;
 }
 
-ArvAVL* inserirAVL(ArvAVL* raiz, const char* palavra){
-    if(raiz == NULL){
+ArvAVL *inserirAVL(ArvAVL *raiz, const char *palavra)
+{
+    if (raiz == NULL)
+    {
         return criarArvAVL(palavra);
     }
-    if(strcmp(palavra, raiz->palavra) < 0){
+    if (strcmp(palavra, raiz->palavra) < 0)
+    {
         raiz->esq = inserirAVL(raiz->esq, palavra);
     }
-    else if(strcmp(palavra, raiz->palavra) > 0){
+    else if (strcmp(palavra, raiz->palavra) > 0)
+    {
         raiz->dir = inserirAVL(raiz->dir, palavra);
     }
-    else{
+    else
+    {
         return raiz;
     }
     raiz->altura = 1 + maior(altura(raiz->esq), altura(raiz->dir));
     return balancearNo(raiz);
 }
 
-void imprimirArvoreEmOrdem(ArvAVL* raiz){
-    if(raiz != NULL){
+void imprimirArvoreEmOrdem(ArvAVL *raiz)
+{
+    if (raiz != NULL)
+    {
         imprimirArvoreEmOrdem(raiz->esq);
         printf("%s\n", raiz->palavra);
         imprimirArvoreEmOrdem(raiz->dir);
     }
 }
 
-void liberarArvore(ArvAVL* raiz){
-    if(raiz != NULL){
+void liberarArvore(ArvAVL *raiz)
+{
+    if (raiz != NULL)
+    {
         liberarArvore(raiz->esq);
         liberarArvore(raiz->dir);
         free(raiz);
