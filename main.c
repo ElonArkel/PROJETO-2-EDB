@@ -6,8 +6,8 @@ int main() {
     Trie* trie = criarTrie();
     ArvAVL* avl = NULL;
 
-    lerTabuleiro("tabuleiro.txt");      // ok
-    lerPalavras("palavras.txt", trie);  // ok
+    lerTabuleiro("tabuleiro.txt");     
+    lerPalavras("palavras.txt", trie); 
     buscarPalavras(trie, &avl);
     imprimirResultado(avl);
 

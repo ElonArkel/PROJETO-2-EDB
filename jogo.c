@@ -51,10 +51,8 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
                 strncpy(palavra, &tabuleiro[i][j], k - j + 1);
                 palavra[k - j + 1] = '\0';
                 if (buscarPalavra(trie, palavra)) {
-                    // *avl = inserirAVL(*avl, palavra);
-                    printf("entrou horizontal esquerda direita\n");
+                    *avl = inserirAVL(*avl, palavra);
                 }
-                
             }
         }
     }
@@ -68,8 +66,7 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
                 palavra[len++] = tabuleiro[i][k];
                 palavra[len] = '\0';
                 if (buscarPalavra(trie, palavra)) {
-                    // *avl = inserirAVL(*avl, palavra);
-                    printf("entrou horizontal direita esquerda\n");
+                    *avl = inserirAVL(*avl, palavra);
                 }
             }
         }
@@ -86,8 +83,7 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
                 }
                 palavra[len] = '\0';
                 if (buscarPalavra(trie, palavra)) {
-                    // *avl = inserirAVL(*avl, palavra);
-                    printf("entrou vertical cima baixo\n");
+                    *avl = inserirAVL(*avl, palavra);
                 }
             }
         }
@@ -102,42 +98,39 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
                 palavra[len++] = tabuleiro[k][i];
                 palavra[len] = '\0';
                 if (buscarPalavra(trie, palavra)) {
-                    // *avl = inserirAVL(*avl, palavra);
-                    printf("entrou vertical baixo cima\n");
+                    *avl = inserirAVL(*avl, palavra);
                 }
             }
         }
     }
 
-    //Diagonal superior esquerda para inferior direita
+    // Diagonal superior esquerda para inferior direita
 
-    for(int i = 0; i < tamanho_tabuleiro; i++){
-        for(int j = 0; j < tamanho_tabuleiro; j++){
+    for (int i = 0; i < tamanho_tabuleiro; i++) {
+        for (int j = 0; j < tamanho_tabuleiro; j++) {
             int x = i, y = j, len = 0;
-            while(x < tamanho_tabuleiro && y < tamanho_tabuleiro){
+            while (x < tamanho_tabuleiro && y < tamanho_tabuleiro) {
                 palavra[len++] = tabuleiro[x][y];
                 palavra[len] = '\0';
-                if(buscarPalavra(trie, palavra)){
-                    // *avl = inserirAVL(*avl, palavra);
-                    printf("entrou diagonal esquerda direita cima baixo\n");
+                if (buscarPalavra(trie, palavra)) {
+                    *avl = inserirAVL(*avl, palavra);
                 }
                 x++;
                 y++;
             }
         }
     }
-    
-    //Diagonal superior direita para inferior esquerda
 
-    for(int i = 0; i < tamanho_tabuleiro; i++){
-        for(int j = 0; j < tamanho_tabuleiro; j++){
+    // Diagonal superior direita para inferior esquerda
+
+    for (int i = 0; i < tamanho_tabuleiro; i++) {
+        for (int j = 0; j < tamanho_tabuleiro; j++) {
             int x = i, y = j, len = 0;
-            while(x < tamanho_tabuleiro && y >= 0){
+            while (x < tamanho_tabuleiro && y >= 0) {
                 palavra[len++] = tabuleiro[x][y];
                 palavra[len] = '\0';
-                if(buscarPalavra(trie, palavra)){
-                    // *avl = inserirAVL(*avl, palavra);
-                    printf("entrou diagonal superior direita inferior esquerda\n");
+                if (buscarPalavra(trie, palavra)) {
+                    *avl = inserirAVL(*avl, palavra);
                 }
                 x++;
                 y--;
@@ -145,169 +138,42 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
         }
     }
 
-    //Diagonal inferior esquerda para superior direita
+    // Diagonal inferior esquerda para superior direita
 
-    for(int i = tamanho_tabuleiro; i >= 0; i--){
-        for(int j = 0; j < tamanho_tabuleiro; j++){
+    for (int i = tamanho_tabuleiro; i >= 0; i--) {
+        for (int j = 0; j < tamanho_tabuleiro; j++) {
             int x = i, y = j, len = 0;
-            while(x >= 0 && y < tamanho_tabuleiro){
+            while (x >= 0 && y < tamanho_tabuleiro) {
                 palavra[len++] = tabuleiro[x][y];
                 palavra[len] = '\0';
-                if(buscarPalavra(trie, palavra)){
-                    // *avl = inserirAVL(*avl, palavra);
-                    printf("entrou inferior esquerda para superior direita\n");
+                if (buscarPalavra(trie, palavra)) {
+                    *avl = inserirAVL(*avl, palavra);
                 }
                 x--;
                 y++;
             }
         }
     }
-    
-    //Diagonal inferior direita para superior esquerda
 
-    for(int i = tamanho_tabuleiro - 1; i >= 0; i--){
-        for(int j = tamanho_tabuleiro - 1; j >= 0; j--){
+    // Diagonal inferior direita para superior esquerda
+
+    for (int i = tamanho_tabuleiro - 1; i >= 0; i--) {
+        for (int j = tamanho_tabuleiro - 1; j >= 0; j--) {
             int x = i, y = j, len = 0;
-            while(x >= 0 && y >= 0){
+            while (x >= 0 && y >= 0) {
                 palavra[len++] = tabuleiro[x][y];
                 palavra[len] = '\0';
-                if(buscarPalavra(trie, palavra)){
-                    // *avl = inserirAVL(*avl, palavra);
-                    printf("entrou inferior direita para superior esquerda\n");
+                if (buscarPalavra(trie, palavra)) {
+                    *avl = inserirAVL(*avl, palavra);
                 }
                 x--;
                 y--;
             }
         }
     }
-
 }
 
 void imprimirResultado(ArvAVL *avl) {
     printf("Palavras encontradas:\n");
     imprimirArvoreEmOrdem(avl);
 }
-
-/*
-typedef struct {
-    char** tabuleiro;
-    int linhas;
-    int colunas;
-    No* trie;  //apontar pro nó raiz da trie
-    ArvAVL* avl;
-} Jogo;
-
-Jogo* criarJogo()
-{
-    Jogo* jogo = (Jogo*)malloc(sizeof(Jogo));
-    jogo->tabuleiro = NULL;
-    jogo->linhas = 0;
-    jogo->colunas = 0;
-    jogo->trie = criarNo();
-    jogo->avl = (ArvAVL*)malloc(sizeof(ArvAVL));
-    criar_ArvAVL(jogo->avl);
-    return jogo;
-}
-
-void destruirJogo(Jogo* jogo)
-{
-    for (int i = 0; i < jogo->linhas; i++)
-    {
-        free(jogo->tabuleiro[i]);
-    }
-    free(jogo->tabuleiro);
-    free(jogo->avl);
-    liberar(jogo->trie);
-    free(jogo);
-}
-
-void lerTabuleiro(Jogo* jogo)
-{
-    FILE* file = fopen("../tabuleiro.txt", "r");
-    if (file == NULL){
-        printf("Erro ao abrir o arquivo\n");
-        exit(1);
-    }
-    else{
-        fscanf(file, "%d %d", &jogo->linhas, &jogo->colunas);
-        jogo->tabuleiro = (char**)malloc(jogo->linhas * sizeof(char*));
-        for (int i = 0; i < jogo->linhas; i++){
-            jogo->tabuleiro[i] = (char*)malloc(jogo->colunas * sizeof(char));
-            for (int j = 0; j < jogo->colunas; j++){
-                fscanf(file, " %c", &jogo->tabuleiro[i][j]);
-            }
-        }
-    }
-    fclose(file);
-}
-
-void lerPalavras(Jogo* jogo)
-{
-    FILE* file = fopen("../palavras.txt", "r");
-    if (file == NULL){
-        printf("Erro ao abrir o arquivo\n");
-        exit(1);
-    }
-    else{
-        char palavra[100];
-        while (fscanf(file, "%s", palavra) != EOF){
-            inserirPalavra(jogo->trie, palavra);
-            Insere_ArvAVL(jogo->avl, palavra);
-        }
-    }
-    fclose(file);
-}
-
-int buscarPalavras(Jogo* jogo)
-{
-    int encontradas = 0;
-    for(int i = 0; i < jogo->linhas; i++){
-        for(int j = 0; j < jogo->colunas; j++){
-            for(int dx = -1; dx <= 1; dx++){
-                for(int dy = -1; dy <= 1; dy++){
-                    if(dx == 0 && dy == 0){
-                        continue;
-                    }
-                    buscarPalavraNaPosicao(jogo, i, j, "", dx, dy);
-                }
-            }
-        }
-    }
-    return encontradas;
-}
-
-void buscar_ArvAVL(ArvAVL *raiz, char* palavra)
-{
-    if (*raiz == NULL){
-        return;
-    }
-    if (strcmp(palavra, (*raiz)->info) == 0){
-        return 1;
-    }
-    if (strcmp(palavra, (*raiz)->info) < 0){
-        buscar_ArvAVL(&(*raiz)->esq, palavra);
-    }
-    else{
-        buscar_ArvAVL(&(*raiz)->dir, palavra);
-    }
-}
-
-void buscarPalavraNaPosicao(Jogo* jogo, int x, int y, const char* palavra, int dx, int dy)
-{
-    if (!validarPosicao(jogo, x, y)){
-        return;
-    }
-    char novaPalavra[100];
-    strcpy(novaPalavra, palavra);
-    novaPalavra[strlen(novaPalavra)] = jogo->tabuleiro[x][y];
-    novaPalavra[strlen(novaPalavra) + 1] = '\0';
-    if (buscarPalavra(jogo->trie, novaPalavra)){
-        buscar_ArvAVL(jogo->avl, novaPalavra);
-    }
-    buscarPalavraNaPosicao(jogo, x + dx, y + dy, novaPalavra, dx, dy);
-}
-
-int validarPosicao(Jogo* jogo, int x, int y)
-{
-    return x >= 0 && x < jogo->linhas && y >= 0 && y < jogo->colunas;
-} */

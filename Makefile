@@ -7,7 +7,7 @@ avl.o: avl.c
 trie.o: trie.c
 	gcc -c trie.c
 prog: main.o jogo.o avl.o trie.o
-	gcc -o prog main.o jogo.o avl.o trie.o
+	gcc -o prog main.o jogo.o avl.o trie.o -Wall -fsanitize=address
 all: prog
 	./prog
 clean:
