@@ -17,6 +17,7 @@ void lerTabuleiro(Jogo* jogo);
 void lerPalavras(Jogo* jogo);
 int buscarPalavras(Jogo* jogo);
 void imprimirResultado(Jogo* jogo);
+void buscar_ArvAVL(ArvAVL *raiz, char* palavra);
 
 void buscarPalavraNaPosicao(Jogo* jogo, int x, int y, const char* palavra, int dx, int dy);
 int validarPosicao(Jogo* jogo, int x, int y);

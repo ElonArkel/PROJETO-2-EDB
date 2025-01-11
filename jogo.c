@@ -91,22 +91,35 @@ int buscarPalavras(Jogo* jogo)
     return encontradas;
 }
 
-void buscarPalavraNaPosicao(Jogo* jogo, int x, int y, const char* palavra, int dx, int dy)
+void buscar_ArvAVL(ArvAVL *raiz, char* palavra)
 {
-    if(x < 0 || x >= jogo->linhas || y < 0 || y >= jogo->colunas){
+    if (*raiz == NULL){
         return;
     }
-    char* novaPalavra = (char*)malloc((strlen(palavra) + 2) * sizeof(char));
+    if (strcmp(palavra, (*raiz)->info) == 0){
+        return 1;
+    }
+    if (strcmp(palavra, (*raiz)->info) < 0){
+        buscar_ArvAVL(&(*raiz)->esq, palavra);
+    }
+    else{
+        buscar_ArvAVL(&(*raiz)->dir, palavra);
+    }
+}
+
+void buscarPalavraNaPosicao(Jogo* jogo, int x, int y, const char* palavra, int dx, int dy)
+{
+    if (!validarPosicao(jogo, x, y)){
+        return;
+    }
+    char novaPalavra[100];
     strcpy(novaPalavra, palavra);
-    novaPalavra[strlen(palavra)] = jogo->tabuleiro[x][y];
-    novaPalavra[strlen(palavra) + 1] = '\0';
-    if(buscarPalavra(jogo->trie, novaPalavra)){
-        if(buscar_ArvAVL(jogo->avl, novaPalavra)){
-            printf("Palavra encontrada: %s\n", novaPalavra);
-        }
+    novaPalavra[strlen(novaPalavra)] = jogo->tabuleiro[x][y];
+    novaPalavra[strlen(novaPalavra) + 1] = '\0';
+    if (buscarPalavra(jogo->trie, novaPalavra)){
+        buscar_ArvAVL(jogo->avl, novaPalavra);
     }
     buscarPalavraNaPosicao(jogo, x + dx, y + dy, novaPalavra, dx, dy);
-    free(novaPalavra);
 }
 
 int validarPosicao(Jogo* jogo, int x, int y)
