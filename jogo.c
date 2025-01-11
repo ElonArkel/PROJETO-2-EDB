@@ -43,6 +43,8 @@ void lerPalavras(const char *arquivo, Trie *raiz) {
 
 void buscarPalavras(Trie *trie, ArvAVL **avl) {
     char palavra[50];
+
+    // Horizontal da esquerda pra direita
     for (int i = 0; i < tamanho_tabuleiro; i++) {
         for (int j = 0; j < tamanho_tabuleiro; j++) {
             for (int k = j; k < tamanho_tabuleiro; k++) {
@@ -50,11 +52,29 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
                 palavra[k - j + 1] = '\0';
                 if (buscarPalavra(trie, palavra)) {
                     // *avl = inserirAVL(*avl, palavra);
+                    printf("entrou horizontal esquerda direita\n");
                 }
                 
             }
         }
     }
+
+    // Horizontal da direita pra esquerda
+
+    for (int i = 0; i < tamanho_tabuleiro; i++) {
+        for (int j = tamanho_tabuleiro - 1; j >= 0; j--) {
+            for (int k = j; k >= 0; k--) {
+                strncpy(palavra, &tabuleiro[i][k], j - k + 1);
+                palavra[j - k + 1] = '\0';
+                if (buscarPalavra(trie, palavra)) {
+                    // *avl = inserirAVL(*avl, palavra);
+                    printf("entrou horizontal direita esquerda\n");
+                }
+            }
+        }
+    }
+
+    // Vertical de cima para baixo
 
     for (int i = 0; i < tamanho_tabuleiro; i++) {
         for (int j = 0; j < tamanho_tabuleiro; j++) {
@@ -66,7 +86,25 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
                 palavra[len] = '\0';
                 if (buscarPalavra(trie, palavra)) {
                     // *avl = inserirAVL(*avl, palavra);
-                    printf("entrou\n");
+                    printf("entrou vertical cima baixo\n");
+                }
+            }
+        }
+    }
+
+    // Vertical de baixo para cima
+
+    for (int i = 0; i < tamanho_tabuleiro; i++) {
+        for (int j = tamanho_tabuleiro - 1; j >= 0; j--) {
+            for (int k = j; k >= 0; k--) {
+                int len = j - k + 1;
+                for (int n = 0; n < len; n++) {
+                    palavra[n] = tabuleiro[k - n][i];
+                }
+                palavra[len] = '\0';
+                if (buscarPalavra(trie, palavra)) {
+                    // *avl = inserirAVL(*avl, palavra);
+                    printf("entrou vertical baixo cima\n");
                 }
             }
         }
@@ -78,11 +116,11 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
         for(int j = 0; j < tamanho_tabuleiro; j++){
             int x = i, y = j, len = 0;
             while(x < tamanho_tabuleiro && y < tamanho_tabuleiro){
-                palavra[len++] = tabuleiro[x++][y++];
+                palavra[len++] = tabuleiro[x][y];
                 palavra[len] = '\0';
                 if(buscarPalavra(trie, palavra)){
                     // *avl = inserirAVL(*avl, palavra);
-                    printf("entrou\n");
+                    printf("entrou diagonal esquerda direita cima baixo\n");
                 }
                 x++;
                 y++;
@@ -96,18 +134,54 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
         for(int j = 0; j < tamanho_tabuleiro; j++){
             int x = i, y = j, len = 0;
             while(x < tamanho_tabuleiro && y >= 0){
-                palavra[len++] = tabuleiro[x++][y--];
+                palavra[len++] = tabuleiro[x][y];
                 palavra[len] = '\0';
                 if(buscarPalavra(trie, palavra)){
                     // *avl = inserirAVL(*avl, palavra);
-                    printf("entrou\n");
+                    printf("entrou diagonal superior direita inferior esquerda\n");
                 }
                 x++;
                 y--;
             }
         }
     }
+
+    //Diagonal inferior esquerda para superior direita
+
+    for(int i = tamanho_tabuleiro; i >= 0; i--){
+        for(int j = 0; j < tamanho_tabuleiro; j++){
+            int x = i, y = j, len = 0;
+            while(x >= 0 && y < tamanho_tabuleiro){
+                palavra[len++] = tabuleiro[x][y];
+                palavra[len] = '\0';
+                if(buscarPalavra(trie, palavra)){
+                    // *avl = inserirAVL(*avl, palavra);
+                    printf("entrou inferior esquerda para superior direita\n");
+                }
+                x--;
+                y++;
+            }
+        }
+    }
     
+    //Diagonal inferior direita para superior esquerda
+
+    for(int i = tamanho_tabuleiro - 1; i >= 0; i--){
+        for(int j = tamanho_tabuleiro - 1; j >= 0; j--){
+            int x = i, y = j, len = 0;
+            while(x >= 0 && y >= 0){
+                palavra[len++] = tabuleiro[x][y];
+                palavra[len] = '\0';
+                if(buscarPalavra(trie, palavra)){
+                    // *avl = inserirAVL(*avl, palavra);
+                    printf("entrou inferior direita para superior esquerda\n");
+                }
+                x--;
+                y--;
+            }
+        }
+    }
+
 }
 
 void imprimirResultado(ArvAVL *avl) {
