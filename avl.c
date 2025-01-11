@@ -1,6 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "avl.h"
+
+int maior(int x, int y)
+{
+    if (x > y)
+        return x;
+    else
+        return y;
+}
 
 int altura(ArvAVL* no){
     if(no == NULL){
@@ -137,13 +146,7 @@ int fatorBalanceamento_NO(struct NO *no)
     return labs(altura_no(no->esq) - altura_no(no->dir)); // função labs retorna valor absoluto
 }
 
-int maior(int x, int y)
-{
-    if (x > y)
-        return x;
-    else
-        return y;
-}
+
 
 int estaVazia(ArvAVL *raiz)
 {

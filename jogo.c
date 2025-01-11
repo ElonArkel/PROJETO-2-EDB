@@ -1,89 +1,81 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "avl.h"
 #include "trie.h"
+
 #define MAX 100
 char tabuleiro[MAX][MAX];
 int tamanho_tabuleiro;
 
-void lerTabuleiro(const char *arquivo)
-{
+void lerTabuleiro(const char *arquivo) {
     FILE *file = fopen(arquivo, "r");
-    if (file == NULL)
-    {
+    if (file == NULL) {
         printf("Erro ao abrir o arquivo\n");
         exit(1);
-    }
-    else
-    {
+    } else {
         fscanf(file, "%d", &tamanho_tabuleiro);
-        for (int i = 0; i < tamanho_tabuleiro; i++)
-        {
-            for (int j = 0; j < tamanho_tabuleiro; j++)
-            {
+        for (int i = 0; i < tamanho_tabuleiro; i++) {
+            for (int j = 0; j < tamanho_tabuleiro; j++) {
                 fscanf(file, " %c", &tabuleiro[i][j]);
             }
         }
     }
+
     fclose(file);
 }
 
-void lerPalavras(const char *arquivo, Trie* raiz)
-{
+void lerPalavras(const char *arquivo, Trie *raiz) {
     FILE *file = fopen(arquivo, "r");
-    if (file == NULL)
-    {
+    if (file == NULL) {
         printf("Erro ao abrir o arquivo\n");
         exit(1);
-    }
-    else
-    {
+    } else {
         char palavra[50];
-        while (fscanf(file, "%s", palavra) != EOF)
-        {
-            inserirTrie(raiz,palavra);
+        while (fscanf(file, "%s", palavra) != EOF) {
+            inserirTrie(raiz, palavra);
         }
     }
+
     fclose(file);
 }
 
-void buscarPalavras(Trie* trie, ArvAVL **avl){
+void buscarPalavras(Trie *trie, ArvAVL **avl) {
     char palavra[50];
-    for(int i = 0; i < tamanho_tabuleiro; i++){
-        for(int j = 0; j < tamanho_tabuleiro; j++){
-            for(int k = j; k < tamanho_tabuleiro; k++){
+    for (int i = 0; i < tamanho_tabuleiro; i++) {
+        for (int j = 0; j < tamanho_tabuleiro; j++) {
+            for (int k = j; k < tamanho_tabuleiro; k++) {
                 strncpy(palavra, &tabuleiro[i][j], k - j + 1);
                 palavra[k - j + 1] = '\0';
-                if(buscarPalavra(trie, palavra)){
-                    *avl = inserirAVL(*avl, palavra);
+                if (buscarPalavra(trie, palavra)) {
+                    // *avl = inserirAVL(*avl, palavra);
                 }
+                
             }
         }
     }
 
-    for(int i = 0; i < tamanho_tabuleiro; i++){
-        for(int j = 0; j < tamanho_tabuleiro; j++){
-            for(int k = j; k < tamanho_tabuleiro; k++){
+    for (int i = 0; i < tamanho_tabuleiro; i++) {
+        for (int j = 0; j < tamanho_tabuleiro; j++) {
+            for (int k = j; k < tamanho_tabuleiro; k++) {
                 int len = k - j + 1;
-                for(int n = 0; n < len; n++){
+                for (int n = 0; n < len; n++) {
                     palavra[n] = tabuleiro[j + n][i];
                 }
                 palavra[len] = '\0';
-                if(buscarPalavra(trie, palavra)){
-                    *avl = inserirAVL(*avl, palavra);
+                if (buscarPalavra(trie, palavra)) {
+                    // *avl = inserirAVL(*avl, palavra);
+                    printf("entrou\n");
                 }
             }
         }
     }
 }
 
-void imprimirResultado(ArvAVL *avl){
+void imprimirResultado(ArvAVL *avl) {
     imprimirArvoreEmOrdem(avl);
 }
-
-
-
 
 /*
 typedef struct {

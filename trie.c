@@ -1,4 +1,6 @@
 #include "trie.h"
+
+#include <stdio.h>
 #include <stdlib.h>
 #define tamanho 26
 
@@ -20,7 +22,6 @@ void inserirTrie(Trie* raiz, const char* palavra) {
 
     while (*palavra) {
         int indice = *palavra - 'a';
-
         if (atual->letras[indice] == NULL) {
             atual->letras[indice] = criarTrie();
         }
@@ -44,7 +45,7 @@ int buscarPalavra(Trie* raiz, const char* palavra) {
         palavra++;
     }
 
-    return atual->final;
+    return atual && atual->final;
 }
 
 void liberarTrie(Trie* raiz) {
@@ -56,58 +57,11 @@ void liberarTrie(Trie* raiz) {
     }
 }
 
-
-/*
-No* criarNo() {
-    No* novoNo = (No*)malloc(sizeof(No));
-
-    if (novoNo) {
-        novoNo->final = 0;
-        for (int i = 0; i < tamanho; i++) {
-            novoNo->letras[i] = NULL;
+void imprimirTrie(Trie* raiz) {
+    for (int i = 0; i < tamanho; i++) {
+        if (raiz->letras[i]) {
+            printf("%c ", i + 'a');
+            imprimirTrie(raiz->letras[i]);
         }
     }
-
-    return novoNo;
 }
-
-void inserirPalavra(No* raiz, char* palavra) {
-    No* atual = raiz;
-
-    while (*palavra) {
-        int indice = *palavra - 'a';
-
-        if (atual->letras[indice] == NULL) {
-            atual->letras[indice] = criarNo();
-        }
-
-        atual = atual->letras[indice];
-        palavra++;
-    }
-
-    atual->final = 1;
-}
-
-int buscarPalavra(No* raiz, char* palavra) {
-    No* atual = raiz;
-
-    while (*palavra) {
-        int indice = *palavra - 'a';
-        if (atual->letras[indice] == NULL) {
-            return 0;
-        }
-        atual = atual->letras[indice];
-    }
-
-    return atual->final;
-}
-
-void liberar(No* raiz) {
-    if (raiz) {
-        for (int i = 0; i < tamanho; i++) {
-            liberar(raiz->letras[i]);
-        }
-        free(raiz);
-    }
-}
-*/
