@@ -2,6 +2,102 @@
 #include <stdlib.h>
 #include "avl.h"
 
+int altura(ArvAVL* no){
+    if(no == NULL){
+        return -1;
+    }
+    else{
+        return no->altura;
+    }
+}
+
+int fatorBalanceamento(ArvAVL* no){
+    return labs(altura(no->esq) - altura(no->dir));
+}
+
+ArvAVL* criarArvAVL(const char* palavra){
+    ArvAVL* novo = (ArvAVL*)malloc(sizeof(ArvAVL));
+    strcpy(novo->palavra, palavra);
+    novo->altura = 1;
+    novo->esq = NULL;
+    novo->dir = NULL;
+    return novo;
+}
+
+ArvAVL* rotacaoDireita(ArvAVL* no){
+    ArvAVL* aux = no->esq;
+    no->esq = aux->dir;
+    aux->dir = no;
+    no->altura = 1 + maior(altura(no->esq), altura(no->dir));
+    aux->altura = 1 + maior(altura(aux->esq), no->altura);
+    return aux;
+}
+
+ArvAVL* rotacaoEsquerda(ArvAVL* no){
+    ArvAVL* aux = no->dir;
+    no->dir = aux->esq;
+    aux->esq = no;
+    no->altura = 1 + maior(altura(no->esq), altura(no->dir));
+    aux->altura = 1 + maior(altura(aux->dir), no->altura);
+    return aux;
+}
+
+ArvAVL* balancearNo(ArvAVL* no){
+    int balanceamento = fatorBalanceamento(no);
+    if(balanceamento > 1){
+        if(altura(no->esq->esq) > altura(no->esq->dir)){
+            no = rotacaoDireita(no);
+        }
+        else{
+            no->esq = rotacaoEsquerda(no->esq);
+            no = rotacaoDireita(no);
+        }
+    }
+    else if(balanceamento < -1){
+        if(altura(no->dir->dir) > altura(no->dir->esq)){
+            no = rotacaoEsquerda(no);
+        }
+        else{
+            no->dir = rotacaoDireita(no->dir);
+            no = rotacaoEsquerda(no);
+        }
+    }
+}
+
+ArvAVL* inserirAVL(ArvAVL* raiz, const char* palavra){
+    if(raiz == NULL){
+        return criarArvAVL(palavra);
+    }
+    if(strcmp(palavra, raiz->palavra) < 0){
+        raiz->esq = inserirAVL(raiz->esq, palavra);
+    }
+    else if(strcmp(palavra, raiz->palavra) > 0){
+        raiz->dir = inserirAVL(raiz->dir, palavra);
+    }
+    else{
+        return raiz;
+    }
+    raiz->altura = 1 + maior(altura(raiz->esq), altura(raiz->dir));
+    return balancearNo(raiz);
+}
+
+void imprimirArvoreEmOrdem(ArvAVL* raiz){
+    if(raiz != NULL){
+        imprimirArvoreEmOrdem(raiz->esq);
+        printf("%s\n", raiz->palavra);
+        imprimirArvoreEmOrdem(raiz->dir);
+    }
+}
+
+void liberarArvore(ArvAVL* raiz){
+    if(raiz != NULL){
+        liberarArvore(raiz->esq);
+        liberarArvore(raiz->dir);
+        free(raiz);
+    }
+}
+
+/*
 struct NO
 {
     int info;
@@ -210,4 +306,4 @@ void imprimirArvoreEmOrdem(ArvAVL *raiz)
         printf("%d\n", (*raiz)->info);
         imprimirArvoreEmOrdem(&((*raiz)->dir));
     }
-}
+}  */

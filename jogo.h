@@ -2,24 +2,14 @@
 #define JOGO_H
 #include "avl.h"
 #include "trie.h"
+#define MAX 100
 
-typedef struct {
-    char** tabuleiro;
-    int linhas;
-    int colunas;
-    No* trie;  // apontar pro nó raiz da trie
-    ArvAVL* avl;
-} Jogo;
+extern char tabuleiro[MAX][MAX];
+extern int tamanho_tabuleiro;
 
-Jogo* criarJogo();
-void destruirJogo(Jogo* jogo);
-void lerTabuleiro(Jogo* jogo);
-void lerPalavras(Jogo* jogo);
-int buscarPalavras(Jogo* jogo);
-void imprimirResultado(Jogo* jogo);
-void buscar_ArvAVL(ArvAVL *raiz, char* palavra);
+void lerTabuleiro(const char *arquivo);
+void lerPalavras(const char *arquivo, Trie* raiz);
+void buscarPalavras(Trie* trie, ArvAVL *avl);
 
-void buscarPalavraNaPosicao(Jogo* jogo, int x, int y, const char* palavra, int dx, int dy);
-int validarPosicao(Jogo* jogo, int x, int y);
 
 #endif
