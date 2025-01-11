@@ -35,20 +35,26 @@ ArvAVL* criarArvAVL(const char* palavra){
 
 ArvAVL* rotacaoDireita(ArvAVL* no){
     ArvAVL* aux = no->esq;
-    no->esq = aux->dir;
+    ArvAVL* aux2 = aux->dir;
+
     aux->dir = no;
+    no->esq = aux2;
+
     no->altura = 1 + maior(altura(no->esq), altura(no->dir));
-    aux->altura = 1 + maior(altura(aux->esq), no->altura);
+    aux->altura = 1 + maior(altura(aux->esq), altura(aux->dir));
     return aux;
 }
 
 ArvAVL* rotacaoEsquerda(ArvAVL* no){
-    ArvAVL* aux = no->dir;
-    no->dir = aux->esq;
-    aux->esq = no;
+    ArvAVL* aux1 = no->dir;
+    ArvAVL* aux2 = aux1->esq;
+    
+    aux1->esq = no;
+    no->dir = aux2;
+
     no->altura = 1 + maior(altura(no->esq), altura(no->dir));
-    aux->altura = 1 + maior(altura(aux->dir), no->altura);
-    return aux;
+    aux1->altura = 1 + maior(altura(aux1->esq), altura(aux1->dir));
+    return aux1;
 }
 
 ArvAVL* balancearNo(ArvAVL* no){
