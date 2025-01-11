@@ -63,9 +63,10 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
 
     for (int i = 0; i < tamanho_tabuleiro; i++) {
         for (int j = tamanho_tabuleiro - 1; j >= 0; j--) {
+            int len = 0;
             for (int k = j; k >= 0; k--) {
-                strncpy(palavra, &tabuleiro[i][k], j - k + 1);
-                palavra[j - k + 1] = '\0';
+                palavra[len++] = tabuleiro[i][k];
+                palavra[len] = '\0';
                 if (buscarPalavra(trie, palavra)) {
                     // *avl = inserirAVL(*avl, palavra);
                     printf("entrou horizontal direita esquerda\n");
@@ -96,11 +97,9 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
 
     for (int i = 0; i < tamanho_tabuleiro; i++) {
         for (int j = tamanho_tabuleiro - 1; j >= 0; j--) {
+            int len = 0;
             for (int k = j; k >= 0; k--) {
-                int len = j - k + 1;
-                for (int n = 0; n < len; n++) {
-                    palavra[n] = tabuleiro[k - n][i];
-                }
+                palavra[len++] = tabuleiro[k][i];
                 palavra[len] = '\0';
                 if (buscarPalavra(trie, palavra)) {
                     // *avl = inserirAVL(*avl, palavra);
