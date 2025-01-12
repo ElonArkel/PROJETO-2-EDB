@@ -173,6 +173,16 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
     }
 }
 
+void removerPalavras(Trie *trie, ArvAVL **avl) {
+    ArvAVL *aux = *avl;
+    while (aux != NULL) {
+        removerTrie(trie, aux->palavra);
+        aux = aux->dir;
+    }
+    liberarArvore(*avl);
+    *avl = NULL;
+}
+
 void imprimirResultado(ArvAVL *avl) {
     printf("Palavras encontradas:\n");
     imprimirArvoreEmOrdem(avl);

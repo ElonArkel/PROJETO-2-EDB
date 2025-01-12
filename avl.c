@@ -104,6 +104,40 @@ ArvAVL *inserirAVL(ArvAVL *raiz, const char *palavra) {
     return balancearNo(raiz);
 }
 
+ArvAVL *removerAVL(ArvAVL *raiz, const char *palavra) {
+    if (raiz == NULL) {
+        return raiz;
+    }
+    if (strcmp(palavra, raiz->palavra) < 0) {
+        raiz->esq = removerAVL(raiz->esq, palavra);
+    } else if (strcmp(palavra, raiz->palavra) > 0) {
+        raiz->dir = removerAVL(raiz->dir, palavra);
+    } else {
+        if (raiz->esq == NULL || raiz->dir == NULL) {
+            ArvAVL *temp = raiz->esq ? raiz->esq : raiz->dir;
+            if (temp == NULL) {
+                temp = raiz;
+                raiz = NULL;
+            } else {
+                *raiz = *temp;
+            }
+            free(temp);
+        } else {
+            ArvAVL *temp = raiz->dir;
+            while (temp->esq != NULL) {
+                temp = temp->esq;
+            }
+            strcpy(raiz->palavra, temp->palavra);
+            raiz->dir = removerAVL(raiz->dir, temp->palavra);
+        }
+    }
+    if (raiz == NULL) {
+        return raiz;
+    }
+    raiz->altura = 1 + maior(altura(raiz->esq), altura(raiz->dir));
+    return balancearNo(raiz);
+}
+
 void imprimirArvoreEmOrdem(ArvAVL *raiz) {
     if (raiz != NULL) {
         imprimirArvoreEmOrdem(raiz->esq);

@@ -8,7 +8,8 @@ typedef struct ArvAVL {
 
 ArvAVL* criarArvAVL(const char* palavra);
 ArvAVL* inserirAVL(ArvAVL* raiz, const char* palavra);
-// ArvAVL* removerAVL(ArvAVL* raiz, const char* palavra);
+ArvAVL* removerAVL(ArvAVL* raiz, const char* palavra);
+
 void imprimirArvoreEmOrdem(ArvAVL* raiz);
 void liberarArvore(ArvAVL* raiz);
 

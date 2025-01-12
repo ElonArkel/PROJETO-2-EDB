@@ -12,5 +12,6 @@ void inserirTrie(Trie* raiz, const char* palavra);
 int buscarPalavra(Trie* raiz, const char* palavra);
 void liberarTrie(Trie* raiz);
 void imprimirTrie(Trie* raiz);
+void removerTrie(Trie* raiz, const char* palavra);
 
 #endif

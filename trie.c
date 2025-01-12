@@ -57,6 +57,23 @@ void liberarTrie(Trie* raiz) {
     }
 }
 
+void removerTrie(Trie* raiz, const char* palavra) {
+    Trie* atual = raiz;
+
+    while (*palavra) {
+        int indice = *palavra - 'a';
+        if (atual->letras[indice] == NULL) {
+            return;
+        }
+        atual = atual->letras[indice];
+        palavra++;
+    }
+
+    if (atual->final) {
+        atual->final = 0;
+    }
+}
+
 void imprimirTrie(Trie* raiz) {
     for (int i = 0; i < tamanho; i++) {
         if (raiz->letras[i]) {

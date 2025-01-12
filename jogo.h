@@ -7,5 +7,6 @@ void lerTabuleiro(const char *arquivo);
 void lerPalavras(const char *arquivo, Trie *raiz);
 void buscarPalavras(Trie *trie, ArvAVL **avl);
 void imprimirResultado(ArvAVL *avl);
+void removerPalavras(Trie *trie, ArvAVL **avl);
 
 #endif
