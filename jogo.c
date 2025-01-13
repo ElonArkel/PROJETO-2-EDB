@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,6 +20,7 @@ void lerTabuleiro(const char *arquivo) {
         for (int i = 0; i < tamanho_tabuleiro; i++) {
             for (int j = 0; j < tamanho_tabuleiro; j++) {
                 fscanf(file, " %c", &tabuleiro[i][j]);
+                tabuleiro[i][j] = tolower(tabuleiro[i][j]);
             }
         }
     }
@@ -34,6 +36,9 @@ void lerPalavras(const char *arquivo, Trie *raiz) {
     } else {
         char palavra[50];
         while (fscanf(file, "%s", palavra) != EOF) {
+            for (int i = 0; palavra[i] != '\0'; i++) {
+                palavra[i] = tolower(palavra[i]);
+            }
             inserirTrie(raiz, palavra);
         }
     }
