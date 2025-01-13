@@ -30,7 +30,25 @@ int main() {
                 imprimirResultado(avl);
                 break;
             case 3:
-                // remover palavra desejada
+                printf("Deseja remover palavra:\n");
+                printf("1 - encontrada (avl)\n");
+                printf("2 - para procurar (trie)\n");
+                scanf("%d", &seletor);
+
+                char palavra[50];
+                printf("Insira a palavra: ");
+                scanf("%s", palavra);
+                if (seletor == 1) {
+                    removerAVL(avl, palavra);
+                    printf("\nPalavra encontrada removida\n");
+                } else if (seletor == 2) {
+                    removerTrie(trie, palavra);
+                    printf("\nPalavra de busca removida\n");
+                } else {
+                    seletor = -1;
+                    printf("\nOpcao invalida\n");
+                }
+
                 break;
             case 4:
                 printf("\nEncerrando...\n\n");
