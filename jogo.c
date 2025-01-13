@@ -189,6 +189,6 @@ void removerPalavras(Trie *trie, ArvAVL **avl) {
 }
 
 void imprimirResultado(ArvAVL *avl) {
-    printf("Palavras encontradas:\n");
+    printf("\nPalavras encontradas:\n");
     imprimirArvoreEmOrdem(avl);
 }
