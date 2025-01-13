@@ -49,7 +49,7 @@ void lerPalavras(const char *arquivo, Trie *raiz) {
 void buscarPalavras(Trie *trie, ArvAVL **avl) {
     char palavra[50];
 
-    // Horizontal da esquerda pra direita
+    // horizontal esquerda direita
     for (int i = 0; i < linha; i++) {
         for (int j = 0; j < coluna; j++) {
             for (int k = j; k < linha; k++) {
@@ -62,7 +62,7 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
         }
     }
 
-    // Horizontal da direita pra esquerda
+    // horizontal direita esquerda
 
     for (int i = 0; i < linha; i++) {
         for (int j = coluna - 1; j >= 0; j--) {
@@ -77,7 +77,7 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
         }
     }
 
-    // Vertical de cima para baixo
+    // vertical cima baixo
 
     for (int i = 0; i < linha; i++) {
         for (int j = 0; j < coluna; j++) {
@@ -94,7 +94,7 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
         }
     }
 
-    // Vertical de baixo para cima
+    // vertical baixo cima
 
     for (int i = 0; i < linha; i++) {
         for (int j = coluna - 1; j >= 0; j--) {
@@ -109,7 +109,7 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
         }
     }
 
-    // Diagonal superior esquerda para inferior direita
+    // diagonal superior esquerda inferior direita
 
     for (int i = 0; i < linha; i++) {
         for (int j = 0; j < coluna; j++) {
@@ -126,7 +126,7 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
         }
     }
 
-    // Diagonal superior direita para inferior esquerda
+    // diagonal superior direita inferior esquerda
 
     for (int i = 0; i < linha; i++) {
         for (int j = 0; j < coluna; j++) {
@@ -143,7 +143,7 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
         }
     }
 
-    // Diagonal inferior esquerda para superior direita
+    // diagonal inferior esquerda superior direita
 
     for (int i = linha; i >= 0; i--) {
         for (int j = 0; j < coluna; j++) {
@@ -160,7 +160,7 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
         }
     }
 
-    // Diagonal inferior direita para superior esquerda
+    // diagonal inferior direita superior esquerda
 
     for (int i = linha - 1; i >= 0; i--) {
         for (int j = coluna - 1; j >= 0; j--) {
