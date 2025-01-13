@@ -7,14 +7,14 @@ int main() {
     ArvAVL* avl = NULL;
 
     lerTabuleiro("tabuleiro.txt");
-    printf("\ntabuleiro carregado.\n");
+    printf("\ntabuleiro carregado...");
 
     lerPalavras("palavras.txt", trie);
-    printf("\npalavras carregadas.\n");
+    printf("\npalavras carregadas...\n");
 
     int seletor = 0;
     while (seletor != 4) {
-        printf("\nCaça Palavras\n");
+        printf("\n-Caça-Palavras-\n");
         printf("1 - buscar palavras\n");
         printf("2 - imprimir resultado\n");
         printf("3 - remover palavras\n");
@@ -25,6 +25,7 @@ int main() {
         switch (seletor) {
             case 1:
                 buscarPalavras(trie, &avl);
+                printf("\ntabuleiro percorrido, palavras armazenadas\n");
                 break;
             case 2:
                 imprimirResultado(avl);
