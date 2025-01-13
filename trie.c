@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+
 #define tamanho 26
 
 Trie* criarTrie() {

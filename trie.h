@@ -1,5 +1,6 @@
 #ifndef TRIE_H
 #define TRIE_H
+
 #define ALFABETO 26
 
 typedef struct Trie {
@@ -8,6 +9,7 @@ typedef struct Trie {
 } Trie;
 
 Trie* criarTrie();
+
 void inserirTrie(Trie* raiz, const char* palavra);
 int buscarPalavra(Trie* raiz, const char* palavra);
 void liberarTrie(Trie* raiz);

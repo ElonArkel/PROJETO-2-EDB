@@ -63,26 +63,25 @@ ArvAVL *rotacaoEsquerda(ArvAVL *no) {
 ArvAVL *balancearNo(ArvAVL *no) {
     int balanceamento = fatorBalanceamento(no);
 
-    // rotação simples direita
+    // rotacao simples direita
     if (balanceamento > 1 && fatorBalanceamento(no->esq) >= 0) {
         return rotacaoDireita(no);
     }
-    // rotação dupla direita
+
+    // rotacao dupla direita
     if (balanceamento > 1 && fatorBalanceamento(no->esq) < 0) {
         no->esq = rotacaoEsquerda(no->esq);
-
         return rotacaoDireita(no);
     }
 
-    // rotação simples esquerda
+    // rotacao simples esquerda
     if (balanceamento < -1 && fatorBalanceamento(no->dir) <= 0) {
         return rotacaoEsquerda(no);
     }
 
-    // rotação dupla esquerda
+    // rotacao dupla esquerda
     if (balanceamento < -1 && fatorBalanceamento(no->dir) > 0) {
         no->dir = rotacaoDireita(no->dir);
-
         return rotacaoEsquerda(no);
     }
 
@@ -93,6 +92,7 @@ ArvAVL *inserirAVL(ArvAVL *raiz, const char *palavra) {
     if (raiz == NULL) {
         return criarArvAVL(palavra);
     }
+
     if (strcmp(palavra, raiz->palavra) < 0) {
         raiz->esq = inserirAVL(raiz->esq, palavra);
     } else if (strcmp(palavra, raiz->palavra) > 0) {
@@ -100,6 +100,7 @@ ArvAVL *inserirAVL(ArvAVL *raiz, const char *palavra) {
     } else {
         return raiz;
     }
+
     raiz->altura = 1 + maior(altura(raiz->esq), altura(raiz->dir));
     return balancearNo(raiz);
 }
@@ -108,6 +109,7 @@ ArvAVL *removerAVL(ArvAVL *raiz, const char *palavra) {
     if (raiz == NULL) {
         return raiz;
     }
+
     if (strcmp(palavra, raiz->palavra) < 0) {
         raiz->esq = removerAVL(raiz->esq, palavra);
     } else if (strcmp(palavra, raiz->palavra) > 0) {
@@ -131,9 +133,11 @@ ArvAVL *removerAVL(ArvAVL *raiz, const char *palavra) {
             raiz->dir = removerAVL(raiz->dir, temp->palavra);
         }
     }
+
     if (raiz == NULL) {
         return raiz;
     }
+
     raiz->altura = 1 + maior(altura(raiz->esq), altura(raiz->dir));
     return balancearNo(raiz);
 }

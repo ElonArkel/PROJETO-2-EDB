@@ -1,5 +1,6 @@
 #ifndef AVL_H
 #define AVL_H
+
 typedef struct ArvAVL {
     char palavra[50];
     int altura;

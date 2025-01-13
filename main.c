@@ -8,7 +8,6 @@ int main() {
 
     lerTabuleiro("tabuleiro.txt");
     printf("\ntabuleiro carregado...");
-
     lerPalavras("palavras.txt", trie);
     printf("\npalavras carregadas...\n");
 
