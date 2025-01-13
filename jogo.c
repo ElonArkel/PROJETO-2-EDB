@@ -8,7 +8,7 @@
 
 #define MAX 100
 char tabuleiro[MAX][MAX];
-int tamanho_tabuleiro;
+int linha, coluna;
 
 void lerTabuleiro(const char *arquivo) {
     FILE *file = fopen(arquivo, "r");
@@ -16,9 +16,9 @@ void lerTabuleiro(const char *arquivo) {
         printf("Erro ao abrir o arquivo\n");
         exit(1);
     } else {
-        fscanf(file, "%d", &tamanho_tabuleiro);
-        for (int i = 0; i < tamanho_tabuleiro; i++) {
-            for (int j = 0; j < tamanho_tabuleiro; j++) {
+        fscanf(file, "%d %d", &linha, &coluna);
+        for (int i = 0; i < linha; i++) {
+            for (int j = 0; j < coluna; j++) {
                 fscanf(file, " %c", &tabuleiro[i][j]);
                 tabuleiro[i][j] = tolower(tabuleiro[i][j]);
             }
@@ -50,9 +50,9 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
     char palavra[50];
 
     // Horizontal da esquerda pra direita
-    for (int i = 0; i < tamanho_tabuleiro; i++) {
-        for (int j = 0; j < tamanho_tabuleiro; j++) {
-            for (int k = j; k < tamanho_tabuleiro; k++) {
+    for (int i = 0; i < linha; i++) {
+        for (int j = 0; j < coluna; j++) {
+            for (int k = j; k < linha; k++) {
                 strncpy(palavra, &tabuleiro[i][j], k - j + 1);
                 palavra[k - j + 1] = '\0';
                 if (buscarPalavra(trie, palavra)) {
@@ -64,8 +64,8 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
 
     // Horizontal da direita pra esquerda
 
-    for (int i = 0; i < tamanho_tabuleiro; i++) {
-        for (int j = tamanho_tabuleiro - 1; j >= 0; j--) {
+    for (int i = 0; i < linha; i++) {
+        for (int j = coluna - 1; j >= 0; j--) {
             int len = 0;
             for (int k = j; k >= 0; k--) {
                 palavra[len++] = tabuleiro[i][k];
@@ -79,9 +79,9 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
 
     // Vertical de cima para baixo
 
-    for (int i = 0; i < tamanho_tabuleiro; i++) {
-        for (int j = 0; j < tamanho_tabuleiro; j++) {
-            for (int k = j; k < tamanho_tabuleiro; k++) {
+    for (int i = 0; i < linha; i++) {
+        for (int j = 0; j < coluna; j++) {
+            for (int k = j; k < coluna; k++) {
                 int len = k - j + 1;
                 for (int n = 0; n < len; n++) {
                     palavra[n] = tabuleiro[j + n][i];
@@ -96,8 +96,8 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
 
     // Vertical de baixo para cima
 
-    for (int i = 0; i < tamanho_tabuleiro; i++) {
-        for (int j = tamanho_tabuleiro - 1; j >= 0; j--) {
+    for (int i = 0; i < linha; i++) {
+        for (int j = coluna - 1; j >= 0; j--) {
             int len = 0;
             for (int k = j; k >= 0; k--) {
                 palavra[len++] = tabuleiro[k][i];
@@ -111,10 +111,10 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
 
     // Diagonal superior esquerda para inferior direita
 
-    for (int i = 0; i < tamanho_tabuleiro; i++) {
-        for (int j = 0; j < tamanho_tabuleiro; j++) {
+    for (int i = 0; i < linha; i++) {
+        for (int j = 0; j < coluna; j++) {
             int x = i, y = j, len = 0;
-            while (x < tamanho_tabuleiro && y < tamanho_tabuleiro) {
+            while (x < linha && y < coluna) {
                 palavra[len++] = tabuleiro[x][y];
                 palavra[len] = '\0';
                 if (buscarPalavra(trie, palavra)) {
@@ -128,10 +128,10 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
 
     // Diagonal superior direita para inferior esquerda
 
-    for (int i = 0; i < tamanho_tabuleiro; i++) {
-        for (int j = 0; j < tamanho_tabuleiro; j++) {
+    for (int i = 0; i < linha; i++) {
+        for (int j = 0; j < coluna; j++) {
             int x = i, y = j, len = 0;
-            while (x < tamanho_tabuleiro && y >= 0) {
+            while (x < linha && y >= 0) {
                 palavra[len++] = tabuleiro[x][y];
                 palavra[len] = '\0';
                 if (buscarPalavra(trie, palavra)) {
@@ -145,10 +145,10 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
 
     // Diagonal inferior esquerda para superior direita
 
-    for (int i = tamanho_tabuleiro; i >= 0; i--) {
-        for (int j = 0; j < tamanho_tabuleiro; j++) {
+    for (int i = linha; i >= 0; i--) {
+        for (int j = 0; j < coluna; j++) {
             int x = i, y = j, len = 0;
-            while (x >= 0 && y < tamanho_tabuleiro) {
+            while (x >= 0 && y < coluna) {
                 palavra[len++] = tabuleiro[x][y];
                 palavra[len] = '\0';
                 if (buscarPalavra(trie, palavra)) {
@@ -162,8 +162,8 @@ void buscarPalavras(Trie *trie, ArvAVL **avl) {
 
     // Diagonal inferior direita para superior esquerda
 
-    for (int i = tamanho_tabuleiro - 1; i >= 0; i--) {
-        for (int j = tamanho_tabuleiro - 1; j >= 0; j--) {
+    for (int i = linha - 1; i >= 0; i--) {
+        for (int j = coluna - 1; j >= 0; j--) {
             int x = i, y = j, len = 0;
             while (x >= 0 && y >= 0) {
                 palavra[len++] = tabuleiro[x][y];
